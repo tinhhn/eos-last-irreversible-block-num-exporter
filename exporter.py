@@ -37,4 +37,5 @@ if __name__ == '__main__':
         try:
             g.set(get_eos_lib_block(url))
         except Exception as e:
+            g.set(0)
             logger.debug(e)
