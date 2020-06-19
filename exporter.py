@@ -32,9 +32,9 @@ if __name__ == '__main__':
     # Start up the server to expose the metrics.
     start_http_server(8889)
     # Generate some requests.
-    try:
-        while True:
-            time.sleep(sleeptime)
+    while True:
+        time.sleep(sleeptime)
+        try:
             g.set(get_eos_lib_block(url))
-    except Exception as e:
-        logger.debug(e)
+        except Exception as e:
+            logger.debug(e)
