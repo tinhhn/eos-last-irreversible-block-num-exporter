@@ -1,7 +1,7 @@
 # eos-last-irreversible-block-num-exporter
 EOS last block number exporter
-![EOS](https://seeklogo.com/images/E/eos-logo-ECF31E0936-seeklogo.com.png)
 
+![EOS](https://seeklogo.com/images/E/eos-logo-ECF31E0936-seeklogo.com.png)
 
 ## Run a test
 ```bash
