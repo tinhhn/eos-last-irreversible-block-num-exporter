@@ -10,13 +10,22 @@ docker run -d -p 8889:8889 -e INTERVAL=5 -e BLOCKCHAIN_FULLNODE_URL=http://your-
 
 ## Prometheus Alert Rule
 ```yaml
-alert: BlockchainNoNewBlock
-expr: changes(eos_last_block_num[1m])
-  != 0
-for: 5s
-labels:
-  severity: critical
-annotations:
-  description: No new block in last 1 minute
-  summary: EOS No new block
+  - name: eos
+    rules:
+    - alert: BlockchainNoNewBlock
+      expr: changes(eos_last_block_num[1m]) == 0
+      for: 5s
+      labels:
+        severity: critical
+      annotations:
+        summary: "EOS No new block"
+        description: "No new block in last 1 minute"
+    - alert: BlockchainCanNotGetLastBlockNumber
+      expr: eos_last_block_num == 0
+      for: 1m
+      labels:
+        severity: critical
+      annotations:
+        summary: "Can not get last block number"
+        description: "Exporter can not access blockchain fullnode service"
 ```
