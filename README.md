@@ -18,4 +18,5 @@ labels:
   severity: critical
 annotations:
   description: No new block in last 1 minute
-  summary: EOS No new block```
+  summary: EOS No new block
+```
