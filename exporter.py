@@ -4,7 +4,7 @@ import logging, sys, os, json, time, urllib.request
 logger = logging.getLogger('EOS_LAST_BLOCK_NUM')
 logging.basicConfig(stream=sys.stdout, level=logging.DEBUG)
 
-g = Gauge('eos_last_block_num', 'EOS Last Block')
+g = Gauge('eos_last_block_num', 'EOS Last Block', ["blockchain_node"])
 
 def get_eos_lib_block(url):
     try:
@@ -23,11 +23,11 @@ if __name__ == '__main__':
         sleeptime = 10
         logger.debug("Environment variable INTERVAL is not set. Use default INTERVAL=%s" % sleeptime)
     try:
-        url = os.environ['BLOCKCHAIN_FULLNODE_URL']
-        logger.info("Environment variable BLOCKCHAIN_FULLNODE_URL=%s" % url)
+        url = os.environ['BLOCKCHAIN_NODE_URL']
+        logger.info("Environment variable BLOCKCHAIN_NODE_URL=%s" % url)
     except:
         url = "http://127.0.0.1:8888"
-        logger.debug("Environment variable BLOCKCHAIN_FULLNODE_URL is not set. Use default BLOCKCHAIN_FULLNODE_URL=%s" % url)
+        logger.debug("Environment variable BLOCKCHAIN_NODE_URL is not set. Use default BLOCKCHAIN_NODE_URL=%s" % url)
 
     # Start up the server to expose the metrics.
     start_http_server(8889)
@@ -35,7 +35,7 @@ if __name__ == '__main__':
     while True:
         time.sleep(sleeptime)
         try:
-            g.set(get_eos_lib_block(url))
+            g.labels(blockchain_node=url).set(get_eos_lib_block(url))
         except Exception as e:
-            g.set(0)
+            g.labels(blockchain_node=url).set(0)
             logger.debug(e)

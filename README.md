@@ -5,7 +5,7 @@ EOS last block number exporter
 
 ## Run a test
 ```bash
-docker run -d -p 8889:8889 -e INTERVAL=5 -e BLOCKCHAIN_FULLNODE_URL=http://your-fullnode:8888 tinhgin/eos-last-irreversible-block-num-exporter
+docker run -d -p 8889:8889 -e INTERVAL=5 -e BLOCKCHAIN_NODE_URL=http://your-blockchain-node:8888 tinhgin/eos-last-irreversible-block-num-exporter
 ```
 
 ## Prometheus Alert Rule
@@ -18,7 +18,7 @@ docker run -d -p 8889:8889 -e INTERVAL=5 -e BLOCKCHAIN_FULLNODE_URL=http://your-
       labels:
         severity: critical
       annotations:
-        summary: "EOS No new block"
+        summary: "{{$labels.blockchain_node}} No new block"
         description: "No new block in last 1 minute"
     - alert: BlockchainCanNotGetLastBlockNumber
       expr: eos_last_block_num == 0
@@ -26,6 +26,6 @@ docker run -d -p 8889:8889 -e INTERVAL=5 -e BLOCKCHAIN_FULLNODE_URL=http://your-
       labels:
         severity: critical
       annotations:
-        summary: "Can not get last block number"
+        summary: "Can not get last block number from {{$labels.blockchain_node}}"
         description: "Exporter can not access blockchain fullnode service"
 ```
