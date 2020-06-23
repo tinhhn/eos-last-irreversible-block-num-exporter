@@ -27,5 +27,5 @@ docker run -d -p 8889:8889 -e INTERVAL=5 -e BLOCKCHAIN_NODE_URL=http://your-bloc
         severity: critical
       annotations:
         summary: "Can not get last block number from {{$labels.blockchain_node}}"
-        description: "Exporter can not access blockchain fullnode service"
+        description: "Exporter can not access {{$labels.blockchain_node}}"
 ```
